@@ -20,6 +20,8 @@ public class MiniVM {
             String[] parts = instruction.split(" ");
             String opcode = parts[0];
 
+            pc++;
+
             switch (opcode) {
                 case "PUSH":
                     int value = Integer.parseInt(parts[1]);
@@ -35,9 +37,35 @@ public class MiniVM {
                     int loadedValue = memory.load(loadedName);
                     stack.push(loadedValue);
                     break;
-                case "ADD":
+                case "GT":
                     int b = stack.pop();
                     int a = stack.pop();
+                    stack.push(a > b ? 1 : 0);
+                    break;
+                case "LT":
+                    b = stack.pop();
+                    a = stack.pop();
+                    stack.push(a < b ? 1 : 0);
+                    break;
+                case "EQ":
+                    b = stack.pop();
+                    a = stack.pop();
+                    stack.push(a == b ? 1 : 0);
+                    break;
+                case "JMP":
+                    int address = Integer.parseInt(parts[1]);
+                    pc = address;
+                    break;
+                case "JZ":
+                    address = Integer.parseInt(parts[1]);
+                    int condition = stack.pop();
+                    if (condition == 0) {
+                        pc = address;
+                    }
+                    break;
+                case "ADD":
+                    b = stack.pop();
+                    a = stack.pop();
                     stack.push(a + b);
                     break;
                 case "SUB":
@@ -70,7 +98,6 @@ public class MiniVM {
                             "Instrução desconhecida: " + opcode
                     );
             }
-            pc++;
         }
     }
 }
