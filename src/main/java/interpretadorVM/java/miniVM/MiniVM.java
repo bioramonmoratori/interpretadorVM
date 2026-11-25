@@ -1,10 +1,13 @@
-package interpretadorVM.java.MiniVM;
+package interpretadorVM.java.miniVM;
+
+import interpretadorVM.java.miniVM.memory.Memory;
 
 import java.util.Stack;
 
 public class MiniVM {
 
     private final Stack<Integer> stack = new Stack<>();
+    private final Memory memory = new Memory();
 
     private int pc = 0;
 
@@ -21,6 +24,16 @@ public class MiniVM {
                 case "PUSH":
                     int value = Integer.parseInt(parts[1]);
                     stack.push(value);
+                    break;
+                case "STORE":
+                    String variableName = parts[1];
+                    int storedValue = stack.pop();
+                    memory.store(variableName, storedValue);
+                    break;
+                case "LOAD":
+                    String loadedName = parts[1];
+                    int loadedValue = memory.load(loadedName);
+                    stack.push(loadedValue);
                     break;
                 case "ADD":
                     int b = stack.pop();

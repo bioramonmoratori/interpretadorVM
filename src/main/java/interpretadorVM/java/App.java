@@ -1,6 +1,6 @@
 package interpretadorVM.java;
 
-import interpretadorVM.java.MiniVM.MiniVM;
+import interpretadorVM.java.miniVM.MiniVM;
 
 public class App
 {
@@ -8,10 +8,12 @@ public class App
 
         String[] program = {
                 "PUSH 10",
+                "STORE x",
                 "PUSH 20",
+                "STORE y",
+                "LOAD x",
+                "LOAD y",
                 "ADD",
-                "PUSH 5",
-                "MUL",
                 "PRINT",
                 "HALT"
         };
